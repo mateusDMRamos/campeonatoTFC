@@ -12,4 +12,4 @@ ADD ./ ./
 # Sinalize que aplicação expõe a porta 3000
 EXPOSE 3000
 # Configurar os comandos para iniciar a aplicação de acordo com as boas práticas
-CMD [ "npm", "start"]
+CMD ["start"]
