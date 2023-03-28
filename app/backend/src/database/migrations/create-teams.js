@@ -1,16 +1,16 @@
-const { QueryInterface, Sequelize } = require("sequelize");
+'use strict';
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('teams', {
       id: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         autoIncrement: true,
         allowNull: false,
         primaryKey: true,
       },
       name: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false,
       }
     });
