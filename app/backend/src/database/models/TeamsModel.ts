@@ -10,7 +10,7 @@ TeamModel.init({
     allowNull: false,
     primaryKey: true,
   },
-  name: {
+  teamName: {
     type: DataTypes.STRING,
     allowNull: false,
   },
