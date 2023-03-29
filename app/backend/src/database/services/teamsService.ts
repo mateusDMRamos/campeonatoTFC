@@ -9,4 +9,9 @@ export default class TeamsService {
     const rows = await this.model.findAll();
     return rows as teamInterface[];
   }
+
+  public async getById(id:number): Promise<teamInterface> {
+    const team = await this.model.findByPk(id);
+    return team as teamInterface;
+  }
 }
