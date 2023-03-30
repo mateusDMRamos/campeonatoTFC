@@ -33,7 +33,7 @@ UserModel.init({
     allowNull: false,
   },
 }, {
-  modelName: 'teams',
+  modelName: 'users',
   underscored: true,
   sequelize: db,
   timestamps: false,
