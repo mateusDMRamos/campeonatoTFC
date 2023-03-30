@@ -11,8 +11,8 @@ export default class LoginService {
     const user = await this.model.findOne({
       where: { email: login.email },
     });
+    if (!user) return { validated: false };
     const validated = bcrypt.compareSync(login.password, user?.dataValues.password);
-    if (!validated) return { validated };
     const token = signLogin(user?.dataValues.email);
     return { validated, token };
   }
