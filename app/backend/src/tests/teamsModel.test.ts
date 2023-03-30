@@ -1,27 +1,33 @@
 import * as sinon from 'sinon';
 import * as chai from 'chai';
-import * as fs from 'fs';
 // @ts-ignore
 import chaiHttp = require('chai-http');
 import { app } from '../app';
 import teamsMock from './mocks/teams';
+import sequelize from '../database/models';
+import Teams from '../database/models/TeamsModel';
 chai.use(chaiHttp);
 
 const { expect } = chai;
 const OK_STATUS = 200;
 
-describe('Teste do método get /teams', () => {
-  beforeEach(function () {
-    sinon.stub(fs.promises, 'readFile').resolves(JSON.stringify(teamsMock));
-  });
+describe('Teste da camada service da rota /teams', () => {
 
   afterEach(function () {
     sinon.restore();
   });
 
-  it('Retorna todos os times do banco de dados', async function () {
+  it('Retorna todos os times do banco de dados quando usado get /teams', async function () {
+    sinon.stub(Teams, 'findAll').resolves(teamsMock);
     const response = await chai.request(app).get('/teams');
     expect(response.status).to.be.equal(OK_STATUS);
     expect(response.body).to.deep.equal(teamsMock);
+  })
+
+  it('Retorna o time com o id do banco de dados quando usado o get /teams:id', async function () {
+    sinon.stub(Teams, 'findByPk').resolves(teamsMock[0]);
+    const response = await chai.request(app).get('/teams/:id');
+    expect(response.status).to.be.equal(OK_STATUS);
+    expect(response.body).to.deep.equal(teamsMock[0]);
   })
 });

@@ -1,3 +1,5 @@
+import Team from "../../database/models/TeamsModel";
+
 export default [
   {
     "id": 1,
@@ -10,4 +12,4 @@ export default [
   {
     "id": 3,
     "teamName": "Botafogo"
-  }]
+  }] as Team[];
