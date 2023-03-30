@@ -9,6 +9,20 @@ const loginBody = {
   password: 'secret_admin'
 }
 
+const noEmailLoginBody = {
+  password: 'secret_admin'
+}
+
+const wrongLoginBody = {
+  email: '@admin.com',
+  password: '12345'
+}
+
+const invalidEmailBody = {
+  email: 'adm@admin.com',
+  password: '12345'
+}
+
 const user = {
   dataValues: {
     username: 'Admin',
@@ -18,8 +32,18 @@ const user = {
   } 
 } as UserModel;
 
+const tokenVerify = {
+  data: {
+    email: 'admin@admin.com',
+  }
+}
+
 export {
   token,
   loginBody,
   user,
+  noEmailLoginBody,
+  wrongLoginBody,
+  invalidEmailBody,
+  tokenVerify,
 }
