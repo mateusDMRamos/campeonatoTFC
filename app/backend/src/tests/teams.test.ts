@@ -4,14 +4,13 @@ import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 import { app } from '../app';
 import teamsMock from './mocks/teams';
-import sequelize from '../database/models';
 import Teams from '../database/models/TeamsModel';
 chai.use(chaiHttp);
 
 const { expect } = chai;
 const OK_STATUS = 200;
 
-describe('Teste da camada service da rota /teams', () => {
+describe('Teste de integração da rota /teams', () => {
 
   afterEach(function () {
     sinon.restore();
