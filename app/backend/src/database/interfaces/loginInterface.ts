@@ -8,7 +8,14 @@ interface ITokenResponse {
   token?: string,
 }
 
+interface IDecoded {
+  data: {
+    email: string
+  }
+}
+
 export {
   ITokenResponse,
   LoginBody,
+  IDecoded,
 };
