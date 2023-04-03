@@ -27,4 +27,11 @@ export default class MatchesService {
     });
     return rows as IMatches[];
   }
+
+  public async finishMatch(id: number) {
+    await this.model.update(
+      { inProgress: false },
+      { where: { id } },
+    );
+  }
 }
