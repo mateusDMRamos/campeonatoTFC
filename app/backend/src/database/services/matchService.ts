@@ -16,7 +16,7 @@ export default class MatchesService {
     return rows as IMatches[];
   }
 
-  public async getFiltered(inProgress: string): Promise<IMatches[]> {
+  public async getFiltered(inProgress: boolean): Promise<IMatches[]> {
     const rows = await this.model.findAll({
       include: [
         { model: Team, as: 'homeTeam', attributes: ['teamName'] },
