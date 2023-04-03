@@ -15,4 +15,15 @@ export default class MatchesService {
     });
     return rows as IMatches[];
   }
+
+  public async getFiltered(inProgress: string): Promise<IMatches[]> {
+    const rows = await this.model.findAll({
+      include: [
+        { model: Team, as: 'homeTeam', attributes: ['teamName'] },
+        { model: Team, as: 'awayTeam', attributes: ['teamName'] },
+      ],
+      where: { inProgress },
+    });
+    return rows as IMatches[];
+  }
 }
