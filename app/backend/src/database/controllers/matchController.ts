@@ -9,7 +9,7 @@ export default class MatchesController {
 
   async getAll(req: Request, res: Response): Promise<Response> {
     const { inProgress } = req.query;
-    if (inProgress !== undefined) {
+    if (inProgress === 'true' || inProgress === 'false') {
       const matches = await this.service.getFiltered(Boolean(inProgress));
       return res.status(200).json(matches);
     }
