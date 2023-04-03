@@ -24,7 +24,7 @@ matchesRouter.patch(
 matchesRouter.patch(
   '/:id',
   (req: Request, res: Response, next: NextFunction) => tokenValidation.verifyToken(req, res, next),
-  (req: Request, res: Response) => matchesController.finishMatch(req, res),
+  (req: Request, res: Response) => matchesController.updateMatch(req, res),
 );
 
 export default matchesRouter;
