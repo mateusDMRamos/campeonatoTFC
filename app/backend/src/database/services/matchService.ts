@@ -16,13 +16,13 @@ export default class MatchesService {
     return rows as IMatches[];
   }
 
-  public async getFiltered(inProgress: boolean): Promise<IMatches[]> {
+  public async getFiltered(inProgress: string): Promise<IMatches[]> {
     const rows = await this.model.findAll({
       include: [
         { model: Team, as: 'homeTeam', attributes: ['teamName'] },
         { model: Team, as: 'awayTeam', attributes: ['teamName'] },
       ],
-      where: { inProgress },
+      where: { inProgress: inProgress === 'true' },
     });
     return rows as IMatches[];
   }
