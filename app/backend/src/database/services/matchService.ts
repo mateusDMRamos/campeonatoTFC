@@ -17,12 +17,13 @@ export default class MatchesService {
   }
 
   public async getFiltered(inProgress: string): Promise<IMatches[]> {
+    const inProgressBool = inProgress === 'true';
     const rows = await this.model.findAll({
       include: [
         { model: Team, as: 'homeTeam', attributes: ['teamName'] },
         { model: Team, as: 'awayTeam', attributes: ['teamName'] },
       ],
-      where: { inProgress: inProgress === 'true' },
+      where: { inProgress: inProgressBool },
     });
     return rows as IMatches[];
   }
