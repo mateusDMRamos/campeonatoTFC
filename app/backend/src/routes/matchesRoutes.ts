@@ -27,4 +27,10 @@ matchesRouter.patch(
   (req: Request, res: Response) => matchesController.updateMatch(req, res),
 );
 
+matchesRouter.post(
+  '/',
+  (req: Request, res: Response, next: NextFunction) => tokenValidation.verifyToken(req, res, next),
+  (req: Request, res: Response) => matchesController.updateMatch(req, res),
+);
+
 export default matchesRouter;
