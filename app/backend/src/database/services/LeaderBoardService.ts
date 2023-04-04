@@ -18,7 +18,7 @@ export default class LeaderBoardService {
     return rows as IMatches[];
   }
 
-  private setTeamData(teamMatches: IMatches[]) {
+  private setTeamData(teamMatches: IMatches[], { name }: ILeaderboard) {
     const teamData = { totalGames: teamMatches.length } as ILeaderboard;
     teamData.totalVictories = teamMatches
       .filter((match) => match.dataValues.homeTeamGoals > match.dataValues.awayTeamGoals)
@@ -32,22 +32,23 @@ export default class LeaderBoardService {
     teamData.totalPoints = teamData.totalVictories * 3 + teamData.totalDraws;
     teamData.goalsFavor = teamMatches.reduce((acc, cur) => cur.dataValues.homeTeamGoals + acc, 0);
     teamData.goalsOwn = teamMatches.reduce((acc, cur) => cur.dataValues.awayTeamGoals + acc, 0);
+    teamData.name = name;
     this.homeTeams.push(teamData);
-    return teamData;
   }
 
-  private async setLeaderBoard(matches: IMatches[]) {
-    this.homeTeams.forEach((team) => {
+  private async setLeaderBoard(matches: IMatches[], homeTeams: ILeaderboard[]) {
+    homeTeams.forEach((team) => {
       const teamMatches = matches
         .filter((match) => match.dataValues.homeTeam.teamName === team.name);
-      this.setTeamData(teamMatches);
+      this.setTeamData(teamMatches, team);
     });
   }
 
   public async getHomeLeaderBoard():Promise<ILeaderboard[]> {
+    this.homeTeams = [];
     const matches = await this.getAllMatches();
-    this.homeTeams = matches.map((match) => ({ name: match.dataValues.homeTeam.teamName }));
-    this.setLeaderBoard(matches);
+    const homeTeams = matches.map((match) => ({ name: match.dataValues.homeTeam.teamName }));
+    this.setLeaderBoard(matches, homeTeams);
     return this.homeTeams;
   }
 }
