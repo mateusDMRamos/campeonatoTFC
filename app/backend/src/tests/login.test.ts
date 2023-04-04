@@ -81,8 +81,11 @@ describe('Teste de integração da rota GET /login/role', () => {
     sinon.stub(UserModel, 'findOne').resolves(user);
     sinon.stub(bcryptjs, 'compareSync').resolves(true);
 
-    const response = await  chai.request(app).get('/login/role').send(loginBody);
+    const signMock = sinon.mock(jwt);
+    signMock.expects('verify').returns(tokenVerify);
+
+    const response = await  chai.request(app).get('/login/role').send(loginBody).set('Authorization', token.token);
     expect(response.status).to.be.equal(OK_STATUS);
-    expect(response.body).to.deep.equal({ role: user.role });
+    expect(response.body).to.deep.equal({ role: user.dataValues.role });
   })
 });

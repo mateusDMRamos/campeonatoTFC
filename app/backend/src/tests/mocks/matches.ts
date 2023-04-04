@@ -1,4 +1,6 @@
 import IMatches from '../../database/interfaces/IMatches';
+import NewMatchReq from '../../database/interfaces/NewMatchReq';
+import MatchesModel from '../../database/models/MatchesModel';
 
 const matchesData = [
   {
@@ -35,8 +37,29 @@ const goalsReqBody = {
   homeTeamGoals: 3,
   awayTeamGoals: 1
 }
+
+const newMatch = {
+  dataValues: {
+    id: 2,
+    homeTeamId: 16,
+    homeTeamGoals: 2,
+    awayTeamId: 9,
+    awayTeamGoals: 0,
+    inProgress: true,
+  } 
+} as MatchesModel;
+
+const newMatchReq = {
+  homeTeamId: 16,
+  homeTeamGoals: 2,
+  awayTeamId: 9,
+  awayTeamGoals: 0,
+} as NewMatchReq
+
 export {
-  goalsReqBody
+  goalsReqBody,
+  newMatch,
+  newMatchReq,
 }
 
 export default matchesData;

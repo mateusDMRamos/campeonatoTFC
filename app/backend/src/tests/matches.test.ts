@@ -5,8 +5,10 @@ import * as jwt from 'jsonwebtoken';
 import chaiHttp = require('chai-http');
 import { app } from '../app';
 import MatchesModel from '../database/models/MatchesModel';
-import matchesData, { goalsReqBody } from './mocks/matches';
-import { tokenVerify } from './mocks/login';
+import matchesData, { goalsReqBody, newMatch, newMatchReq } from './mocks/matches';
+import { token, tokenVerify } from './mocks/login';
+import Team from '../database/models/TeamsModel';
+import teams from './mocks/teams';
 chai.use(chaiHttp);
 
 const { expect } = chai;
@@ -32,7 +34,7 @@ describe('Teste de integração da rota GET /matches', () => {
     const signMock = sinon.mock(jwt);
     signMock.expects('verify').returns(tokenVerify);
 
-    const response = await chai.request(app).patch('/matches/1/finish');
+    const response = await chai.request(app).patch('/matches/1/finish').set('Authorization', token.token);
     expect(response.status).to.be.equal(OK_STATUS);
     expect(response.body).to.deep.equal({ message: 'Finished' });
   })
@@ -44,7 +46,7 @@ describe('Teste de integração da rota GET /matches', () => {
     const signMock = sinon.mock(jwt);
     signMock.expects('verify').returns(tokenVerify);
 
-    const response = await chai.request(app).patch('/matches/1').send(goalsReqBody);
+    const response = await chai.request(app).patch('/matches/1').send(goalsReqBody).set('Authorization', token.token);
     expect(response.status).to.be.equal(OK_STATUS);
     expect(response.body).to.deep.equal({ message: 'Match updated' });
   })
@@ -65,5 +67,20 @@ describe('Teste de integração da rota GET /matches', () => {
     const response = await chai.request(app).get('/matches?inProgress=false');
     expect(response.status).to.be.equal(OK_STATUS);
     expect(response.body).to.deep.equal(endedMatch);
+  })
+
+  it('Cria nova partida', async function () {
+    sinon.stub(MatchesModel, 'create').resolves(newMatch);
+    const teamStub = sinon.stub(Team, 'findOne');
+    teamStub.onCall(0).resolves(teams[0]);
+    teamStub.onCall(1).resolves(teams[1]);
+    const signMock = sinon.mock(jwt);
+    signMock.expects('verify').returns(tokenVerify);
+
+    const response = await chai.request(app).post('/matches')
+    .send(newMatchReq)
+    .set('Authorization', token.token);
+    expect(response.status).to.be.equal(201);
+    expect(response.body).to.deep.equal(matchesData[1]);
   })
 });
