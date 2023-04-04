@@ -8,7 +8,7 @@ export default class LeaderBoardController {
   }
 
   async getLeaderBoard(_req: Request, res: Response): Promise<Response> {
-    const leaderBoard = await this.service.getAllMatches();
+    const leaderBoard = await this.service.getHomeLeaderBoard();
     return res.status(200).json(leaderBoard);
   }
 }
