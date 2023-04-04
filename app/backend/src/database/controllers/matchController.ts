@@ -32,6 +32,6 @@ export default class MatchesController {
 
   async setNewMatch(req: Request, res: Response) {
     const newMatch = await this.service.setMatch(req.body);
-    res.status(200).json(newMatch);
+    res.status(201).json(newMatch);
   }
 }
