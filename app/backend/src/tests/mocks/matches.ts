@@ -31,4 +31,12 @@ const matchesData = [
   }
 ] as IMatches[];
 
+const goalsReqBody = {
+  homeTeamGoals: 3,
+  awayTeamGoals: 1
+}
+export {
+  goalsReqBody
+}
+
 export default matchesData;
