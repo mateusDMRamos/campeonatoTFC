@@ -71,7 +71,8 @@ export default class LeaderBoardService {
       name: match.dataValues.homeTeam.teamName,
       ...this.dataTemplate,
     }));
-    this.setLeaderBoard(matches, homeTeams);
+    const uniqueHomeTeams = homeTeams.filter((team, index, array) => array.indexOf(team) === index);
+    this.setLeaderBoard(matches, uniqueHomeTeams);
     return this.homeTeams;
   }
 }
