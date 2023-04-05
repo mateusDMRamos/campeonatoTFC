@@ -22,6 +22,7 @@ export default class LeaderBoardService {
 
   private async getAllMatches(): Promise<IMatches[]> {
     const rows = await this.model.findAll({
+      where: { inProgress: false },
       include: [
         { model: Team, as: 'homeTeam', attributes: ['teamName'] },
         { model: Team, as: 'awayTeam', attributes: ['teamName'] },
