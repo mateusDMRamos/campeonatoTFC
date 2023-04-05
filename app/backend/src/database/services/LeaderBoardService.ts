@@ -6,6 +6,18 @@ import Team from '../models/TeamsModel';
 
 export default class LeaderBoardService {
   private homeTeams = [] as ILeaderboard[];
+  private dataTemplate = {
+    totalPoints: 0,
+    totalGames: 0,
+    totalVictories: 0,
+    totalDraws: 0,
+    totalLosses: 0,
+    goalsFavor: 0,
+    goalsOwn: 0,
+    goalsBalance: 0,
+    efficiency: 0,
+  };
+
   constructor(private model:ModelStatic<MatchesModel>) {}
 
   private async getAllMatches(): Promise<IMatches[]> {
@@ -18,36 +30,46 @@ export default class LeaderBoardService {
     return rows as IMatches[];
   }
 
-  private setTeamData(teamMatches: IMatches[], { name }: ILeaderboard) {
-    const teamData = { totalGames: teamMatches.length } as ILeaderboard;
-    teamData.totalVictories = teamMatches
+  private setTeamData(teamData: IMatches[], { name }: ILeaderboard) {
+    const teamStat = { totalGames: teamData.length } as ILeaderboard;
+    teamStat.totalVictories = teamData
       .filter((match) => match.dataValues.homeTeamGoals > match.dataValues.awayTeamGoals)
       .length;
-    teamData.totalLosses = teamMatches
+    teamStat.totalLosses = teamData
       .filter((match) => match.dataValues.homeTeamGoals < match.dataValues.awayTeamGoals)
       .length;
-    teamData.totalDraws = teamMatches
+    teamStat.totalDraws = teamData
       .filter((match) => match.dataValues.homeTeamGoals === match.dataValues.awayTeamGoals)
       .length;
-    teamData.totalPoints = teamData.totalVictories * 3 + teamData.totalDraws;
-    teamData.goalsFavor = teamMatches.reduce((acc, cur) => cur.dataValues.homeTeamGoals + acc, 0);
-    teamData.goalsOwn = teamMatches.reduce((acc, cur) => cur.dataValues.awayTeamGoals + acc, 0);
-    teamData.name = name;
-    this.homeTeams.push(teamData);
+    teamStat.totalPoints = teamStat.totalVictories * 3 + teamStat.totalDraws;
+    teamStat.goalsFavor = teamData.reduce((acc, cur) => cur.dataValues.homeTeamGoals + acc, 0);
+    teamStat.goalsOwn = teamData.reduce((acc, cur) => cur.dataValues.awayTeamGoals + acc, 0);
+    teamStat.name = name;
+    teamStat.goalsBalance = teamStat.goalsFavor - teamStat.goalsOwn;
+    teamStat.efficiency = ((teamStat.totalPoints * 100) / (teamData.length * 300));
+    this.homeTeams.push(teamStat);
   }
 
-  private async setLeaderBoard(matches: IMatches[], homeTeams: ILeaderboard[]) {
+  private orderLeaderBoard() {
+    this.homeTeams.sort((a, b) => b.totalPoints - a.totalPoints);
+  }
+
+  private setLeaderBoard(matches: IMatches[], homeTeams: ILeaderboard[]) {
     homeTeams.forEach((team) => {
       const teamMatches = matches
         .filter((match) => match.dataValues.homeTeam.teamName === team.name);
       this.setTeamData(teamMatches, team);
     });
+    this.orderLeaderBoard();
   }
 
   public async getHomeLeaderBoard():Promise<ILeaderboard[]> {
     this.homeTeams = [];
     const matches = await this.getAllMatches();
-    const homeTeams = matches.map((match) => ({ name: match.dataValues.homeTeam.teamName }));
+    const homeTeams = matches.map((match) => ({
+      name: match.dataValues.homeTeam.teamName,
+      ...this.dataTemplate,
+    }));
     this.setLeaderBoard(matches, homeTeams);
     return this.homeTeams;
   }
