@@ -21,6 +21,8 @@
  ```
   npm run compose:up
  ```
+ * Para verificar o retorno da API, podem ser utilizadas extensões do VSCode como thunderClient.
+ 
  
 ## Pontos a melhorar/desenvolver:
  * Leaderboard Away: criar a leaderboard de times fora de casa, com as mesmas funções do 'leaderboard home teams'.
