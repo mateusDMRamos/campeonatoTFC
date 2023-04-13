@@ -1,13 +1,27 @@
-# :construction: README customizado em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto no qual você pode customizar e reutilizar todas as vezes que for executar o trybe-publisher.
+# :construction: PROJETO em construção ! :construction:
 
-Para deixá-lo com a sua cara, basta alterar o seguinte arquivo da sua máquina: ~/.student-repo-publisher/custom/_NEW_README.md
+## Sobre o Projeto:
+ * O projeto é o Backend de um app de tabela de resultados de times em um campeonato.
 
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+ * Este projeto foi construído utilizando as tecnologias Node.js, Sequelize, Mocha, Sinon, Chai, Docker e JWT. 
+
+ * No desenvolvimento do projeto, busquei aplicar alguns conhecimentos de TDD e POO.
+ 
+ *O Projeto foi desenvolvido utilizando a arquitetura MSC e buscou seguir os principios de arquitetura SOLID.
+
+## Para rodar o projeto localmente:
+ * Instale as dependências com:
+
+ ```
+  npm install
+ ```
+ 
+ * Após a instalação das dependências, basta utilizar o comando abaixo na raiz do projeto para rodar o protótipo:
+ 
+ ```
+  npm run compose:up
+ ```
+ 
+## Pontos a melhorar/desenvolver:
+ * Leaderboard Away: criar a leaderboard de times fora de casa, com as mesmas funções do 'leaderboard home teams'.
+ * Leaderboard Geral: criar o leaderboard geral do campeonato para mostrar o resultado total de cada time.
