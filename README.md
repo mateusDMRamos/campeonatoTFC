@@ -1,4 +1,4 @@
-# :construction: PROJETO em construção ! :construction:
+# Campeonato TFC
 
 ## Sobre o Projeto:
  * O projeto é o Backend de um app de tabela de resultados de times em um campeonato.
